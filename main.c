@@ -15,6 +15,9 @@ char *md_to_newline(char *, char *);
 char *_locate_word(char *, size_t, char *, char *);
 char *locate_word(char *, char *, size_t);
 
+/* This function returns the start of a new line to the right of our binary
+   search's midpoint `md`, not exceeding the pointer `hi`.  If the start of a
+   new line is not found, we return the pointer `hi`.  */
 char *md_to_newline(char *md, char *hi) {
   char *newline = memchr(md, '\n', (size_t) hi - (size_t) md);
   if (newline != NULL && newline < hi) {
@@ -24,6 +27,9 @@ char *md_to_newline(char *md, char *hi) {
   }
 }
 
+/* Recursive binary search function: we look for the string `word` of length
+   `wordlen` in the address space demarcated by pointers `lo` (inclusive) and
+   `hi` (exclusive).  */
 char *_locate_word(char *word, size_t wordlen, char *lo, char *hi) {
   char *md = lo + (hi - lo) / 2;
   bool last = false;
@@ -56,6 +62,8 @@ char *_locate_word(char *word, size_t wordlen, char *lo, char *hi) {
   }
 }
 
+/* Entry point for our binary search function: we look for the string `word` in
+   a newline-separated dictionary `dict` of filesize `filesize`.  */
 char *locate_word(char *word, char *dict, size_t filesize) {
   if (word == NULL || dict == NULL || filesize == 0) {
     return NULL;
@@ -63,9 +71,9 @@ char *locate_word(char *word, char *dict, size_t filesize) {
   return _locate_word(word, strlen(word), dict, dict + filesize);
 }
 
-/* This main function is monolothic; but, once we've successfully loaded the
-   file (or handled the error conditions), we call out to the functions defined
-   above.  */
+/* This main function is monolothic; but, once we've successfully loaded our
+   file (or handled the error conditions), we call out to the binary search
+   function `locate_word` defined above.  */
 int main(int argc, char *argv[]) {
 
   int retval = -1;
