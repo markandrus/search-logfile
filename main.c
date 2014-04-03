@@ -1,9 +1,15 @@
+#define _POSIX_C_SOURCE 1
 #include <errno.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
+#include <strings.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
+
+#ifndef MAP_FILE
+#define MAP_FILE 0
+#endif
 
 char *md_to_newline(char *, char *);
 char *_locate_word(char *, size_t, char *, char *);

@@ -1,7 +1,7 @@
 SRCS=$(shell ls *.c)
 OBJS=$(SRCS:.c=.o)
 BIN=main
-CFLAGS=-std=c99 -Wall -Wextra -Weverything -O2
+CFLAGS=-std=c99 -Wall -Wextra -O2
 
 $(BIN): $(OBJS)
 	$(CC) $(LDFLAGS) $(OBJS) -o $@
